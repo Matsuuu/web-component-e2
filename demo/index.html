@@ -10,8 +10,13 @@
     </head>
     <body>
         <pay-trail
-            PARAMS_IN="MERCHANT_ID,CURRENCY"
-            MERCHANT_ID="asdgasdg"
+            url_success="https://google.com"
+            url_cancel="https://google.com"
+            order_number="123123123"
+            amount="123.50"
+            params_in="MERCHANT_ID,CURRENCY,URL_SUCCESS,URL_CANCEL,ORDER_NUMBER,AMOUNT,PARAMS_IN,PARAMS_OUT"
+            params_out="PAYMENT_ID,TIMESTAMP,STATUS"
+            submit_button_label="Submit"
         ></pay-trail>
 
         <script src="../src/PayTrail.js" type="module"></script>
