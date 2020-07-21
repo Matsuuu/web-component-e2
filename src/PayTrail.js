@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 const paymentUrl = 'https://payment.paytrail.com/e2';
 
 const template = document.createElement('template');
@@ -26,13 +27,13 @@ export class PayTrail extends HTMLElement {
     constructor() {
         super();
 
-        this.initializeFields();
+        this._initializeFields();
         const root = this.attachShadow({ mode: 'open' });
         root.appendChild(template.content.cloneNode(true));
-        document.addEventListener('click', this.calculateAuthCode.bind(this));
+        document.addEventListener('click', this._calculateAuthCode.bind(this));
     }
 
-    initializeFields() {
+    _initializeFields() {
         this.merchant_authentication_hash = '6pKF4jkv97zmqBJ3ZL8gUw5DfT2NMQ';
         this.submit_button_label = 'Pay here';
         this.merchant_id = '13466';
@@ -43,17 +44,26 @@ export class PayTrail extends HTMLElement {
         this.vat_is_included = 1;
     }
 
-    calculateAuthCode() {
+    async _calculateAuthCode() {
+        // Get all of the fields excpect for authcode and map the values
+        // accordingly with a pipe in between. e.g. val1|val2|val3
         const authCodeString = Array.from(this.shadowRoot.querySelectorAll('input[type=hidden]'))
             .filter(f => f.name !== 'AUTHCODE')
             .reduce((a, b) => {
                 return `${a}|${b.value}`;
             }, '');
-        console.log(authCodeString);
-        // TODO: Figure out how to hash it without deps. Might have to use deps tho.
+
+        // Generate a SHA-256 hash and turn it into a hash hex
+        const encoder = new TextEncoder();
+        const data = encoder.encode(authCodeString.substring(1));
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+
+        return hashHex.toUpperCase();
     }
 
-    calculatePaymentId() {}
+    _calculatePaymentId() {}
 
     static get observedAttributes() {
         return [
