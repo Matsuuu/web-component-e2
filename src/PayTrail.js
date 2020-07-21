@@ -16,7 +16,6 @@ const requiredFields = [
     'amount',
     'params_in',
     'params_out',
-    'authcode',
 ];
 
 const requiredParamsOut = ['payment_id', 'timestamp', 'status'];
@@ -30,7 +29,6 @@ export class PayTrail extends HTMLElement {
         this._initializeFields();
         const root = this.attachShadow({ mode: 'open' });
         root.appendChild(template.content.cloneNode(true));
-        document.addEventListener('click', this._calculateAuthCode.bind(this));
     }
 
     _initializeFields() {
@@ -51,11 +49,11 @@ export class PayTrail extends HTMLElement {
             .filter(f => f.name !== 'AUTHCODE')
             .reduce((a, b) => {
                 return `${a}|${b.value}`;
-            }, '');
+            }, this.merchant_authentication_hash);
 
         // Generate a SHA-256 hash and turn it into a hash hex
         const encoder = new TextEncoder();
-        const data = encoder.encode(authCodeString.substring(1));
+        const data = encoder.encode(authCodeString);
         const hashBuffer = await crypto.subtle.digest('SHA-256', data);
         const hashArray = Array.from(new Uint8Array(hashBuffer));
         const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
@@ -64,6 +62,85 @@ export class PayTrail extends HTMLElement {
     }
 
     _calculatePaymentId() {}
+
+    attributeChangedCallback(attributeName, oldValue, newValue) {
+        this._generateFields();
+        this[attributeName] = newValue;
+    }
+
+    connectedCallback() {
+        this._checkRequiredFields();
+        this._generateFields();
+    }
+
+    _checkRequiredFields() {
+        const splitParamsOut = this.params_out ? this.params_out.toLowerCase().split(',') : [];
+        requiredParamsOut.forEach(paramOut => {
+            if (!splitParamsOut.includes(paramOut.toLowerCase())) {
+                throw Error(
+                    `PARAMS_OUT doesn't include all of the required fields.\nRequired fields:\n\n${requiredParamsOut.map(
+                        pout => `${pout.toUpperCase()}\n`
+                    )}`
+                );
+            }
+        });
+    }
+
+    async _generateFields() {
+        const form = this.shadowRoot.querySelector('form');
+        form.innerHTML = '';
+
+        const fields = this.PARAMS_IN ? this.PARAMS_IN.split(',') : [];
+        this._populateRequiredFields(fields);
+
+        const documentFragment = document.createDocumentFragment();
+        this._generateInputFields(documentFragment, fields);
+        this._generateSubmitButton(documentFragment);
+
+        form.appendChild(documentFragment);
+        this._generateAuthcodeInputField(form);
+    }
+
+    _populateRequiredFields(fields) {
+        requiredFields.forEach(reqField => {
+            if (!fields.includes(reqField)) {
+                fields.push(reqField);
+            }
+        });
+    }
+
+    _generateInputFields(documentFragment, fields) {
+        fields.forEach(field => {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = field.toUpperCase();
+            input.value = this[field] || '';
+            documentFragment.appendChild(input);
+        });
+    }
+
+    _generateSubmitButton(documentFragment) {
+        const submitButton = document.createElement('input');
+        submitButton.type = 'submit';
+        submitButton.value = this.submit_button_label;
+        documentFragment.appendChild(submitButton);
+    }
+
+    _generateAuthcodeInputField(form) {
+        const authCodeInput = document.createElement('input');
+        authCodeInput.type = 'hidden';
+        authCodeInput.name = 'AUTHCODE';
+        this._calculateAuthCode().then(authcode => {
+            authCodeInput.value = authcode;
+        });
+        form.appendChild(authCodeInput);
+    }
+
+    _populateAuthCodeField() {
+        this._calculateAuthCode().then(authcode => {
+            this.shadowRoot.querySelector('input[name=AUTHCODE]').value = authcode;
+        });
+    }
 
     static get observedAttributes() {
         return [
@@ -97,59 +174,6 @@ export class PayTrail extends HTMLElement {
             'payer_person_addr_country',
             'payer_company_name',
         ];
-    }
-
-    attributeChangedCallback(attributeName, oldValue, newValue) {
-        this._generateFields();
-        this[attributeName] = newValue;
-    }
-
-    connectedCallback() {
-        this._checkRequiredFields();
-        this._generateFields();
-    }
-
-    _checkRequiredFields() {
-        const splitParamsOut = this.params_out ? this.params_out.toLowerCase().split(',') : [];
-        requiredParamsOut.forEach(paramOut => {
-            if (!splitParamsOut.includes(paramOut.toLowerCase())) {
-                throw Error(
-                    `PARAMS_OUT doesn't include all of the required fields.\nRequired fields:\n\n${requiredParamsOut.map(
-                        pout => `${pout.toUpperCase()}\n`
-                    )}`
-                );
-            }
-        });
-    }
-
-    _generateFields() {
-        console.log({ ...this });
-
-        const form = this.shadowRoot.querySelector('form');
-        form.innerHTML = '';
-        const fields = this.PARAMS_IN ? this.PARAMS_IN.split(',') : [];
-
-        requiredFields.forEach(reqField => {
-            if (!fields.includes(reqField)) {
-                fields.push(reqField);
-            }
-        });
-        const documentFragment = document.createDocumentFragment();
-
-        fields.forEach(field => {
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = field.toUpperCase();
-            input.value = this[field] || '';
-            documentFragment.appendChild(input);
-        });
-
-        const submitButton = document.createElement('input');
-        submitButton.type = 'submit';
-        submitButton.value = this.submit_button_label;
-        documentFragment.appendChild(submitButton);
-
-        form.appendChild(documentFragment);
     }
 }
 
