@@ -19,6 +19,20 @@
             submit_button_label="Submit"
         ></pay-trail>
 
+        <button id="add-product">Add product</button>
+        <button id="remove-product">Remove product</button>
+
         <script src="../src/PayTrail.js" type="module"></script>
+        <script>
+            const product = { item_title: 'Product name', item_unit_price: '29.99', item_vat_percent: '24.00' };
+            document.querySelector('#add-product').addEventListener('click', () => {
+                const products = document.querySelector('pay-trail').addProducts(product);
+                document.querySelector('pay-trail').calculateAuthCodeString();
+            });
+
+            document.querySelector('#remove-product').addEventListener('click', () => {
+                const products = document.querySelector('pay-trail').removeProduct(product);
+            });
+        </script>
     </body>
 </html>

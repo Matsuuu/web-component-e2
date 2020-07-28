@@ -8,6 +8,7 @@ template.innerHTML = `
 </form>
 `;
 
+const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
 const requiredFields = [
     'merchant_id',
     'url_success',
@@ -21,6 +22,7 @@ const requiredFields = [
 const requiredParamsOut = ['payment_id', 'timestamp', 'status'];
 
 const requiredProductFields = ['item_title', 'item_unit_price', 'item_vat_percent'];
+const allProductFields = [...requiredProductFields, 'item_id', 'item_quantity', 'item_discount_percent', 'item_type'];
 
 export class PayTrail extends HTMLElement {
     constructor() {
@@ -32,6 +34,7 @@ export class PayTrail extends HTMLElement {
     }
 
     _initializeFields() {
+        this.products = [];
         this.merchant_authentication_hash = '6pKF4jkv97zmqBJ3ZL8gUw5DfT2NMQ';
         this.submit_button_label = 'Pay here';
         this.merchant_id = '13466';
@@ -42,34 +45,90 @@ export class PayTrail extends HTMLElement {
         this.vat_is_included = 1;
     }
 
-    async _calculateAuthCode() {
-        // Get all of the fields excpect for authcode and map the values
-        // accordingly with a pipe in between. e.g. val1|val2|val3
-        const authCodeString = Array.from(this.shadowRoot.querySelectorAll('input[type=hidden]'))
-            .filter(f => f.name !== 'AUTHCODE')
-            .reduce((a, b) => {
-                return `${a}|${b.value}`;
-            }, this.merchant_authentication_hash);
-
-        // Generate a SHA-256 hash and turn it into a hash hex
-        const encoder = new TextEncoder();
-        const data = encoder.encode(authCodeString);
-        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-
-        return hashHex.toUpperCase();
+    getAuthCodeString() {
+        let authCodeString = '';
+        this.params_in.split(',').forEach(paramName => {
+            console.log(paramName);
+            authCodeString += `|${this.shadowRoot.querySelector(`input[name=${paramName}]`).value}`;
+        });
+        return authCodeString;
     }
 
-    _calculatePaymentId() {}
+    calculateAuthCodeString() {
+        console.warn(
+            `It is not suggested to generate the AUTHCODE in the frontend, since you will be exposing your merchant_authentication_hash. \n\nIf this is a development setup, you can ignore this message, but in a production environment you should calculate the AUTHCODE in the backend.\n\nUse getAuthCodeString() instead to get the authcode string without the mechant authentication hash. `
+        );
+        const authCodeString = `${this.merchant_authentication_hash}${this.getAuthCodeString()}`;
+        const encoder = new TextEncoder();
+        const data = encoder.encode(authCodeString);
+        crypto.subtle.digest('SHA-256', data).then(hashBuffer => {
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            const hash = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+            this.authcode = hash.toUpperCase();
+            this.update();
+        });
+    }
+
+    getProducts() {
+        return this.products;
+    }
+
+    setProducts(products) {
+        if (Array.isArray(products)) {
+            this.products = products;
+        } else {
+            this.products = [products];
+        }
+        this.update();
+    }
+
+    addProducts(products) {
+        if (Array.isArray(products)) {
+            this.products = [...this.products, ...products];
+        } else {
+            this.products = [...this.products, products];
+        }
+        this.update();
+    }
+
+    removeProduct(product) {
+        this.products = this.products.filter(p => p !== product);
+        this.update();
+    }
+
+    removeProductAtIndex(index) {
+        if (index > this.products.length) {
+            return;
+        }
+        this.products.splice(index, 1);
+        this.update();
+    }
+
+    getParamsIn() {}
+
+    _generateOrderNumber() {
+        let paymentIdString = '';
+        const charactersLength = characters.length;
+        for (let i = 0; i < 64; i += 1) {
+            paymentIdString += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return paymentIdString;
+    }
 
     attributeChangedCallback(attributeName, oldValue, newValue) {
-        this._generateFields();
+        if (oldValue === newValue) {
+            return;
+        }
         this[attributeName] = newValue;
+        this.update();
     }
 
     connectedCallback() {
         this._checkRequiredFields();
+        this._generateFields();
+    }
+
+    update() {
         this._generateFields();
     }
 
@@ -90,11 +149,12 @@ export class PayTrail extends HTMLElement {
         const form = this.shadowRoot.querySelector('form');
         form.innerHTML = '';
 
-        const fields = this.PARAMS_IN ? this.PARAMS_IN.split(',') : [];
+        const fields = this.params_in ? this.params_in.split(',') : [];
         this._populateRequiredFields(fields);
 
         const documentFragment = document.createDocumentFragment();
         this._generateInputFields(documentFragment, fields);
+        this._generateProductFields(documentFragment);
         this._generateSubmitButton(documentFragment);
 
         form.appendChild(documentFragment);
@@ -114,8 +174,38 @@ export class PayTrail extends HTMLElement {
             const input = document.createElement('input');
             input.type = 'hidden';
             input.name = field.toUpperCase();
-            input.value = this[field] || '';
+            switch (input.name) {
+                case 'ORDER_NUMBER':
+                    input.value = this.order_number || this._generateOrderNumber();
+                    break;
+                default:
+                    input.value = this[field.toLowerCase()] || '';
+                    break;
+            }
             documentFragment.appendChild(input);
+        });
+    }
+
+    _generateProductFields(documentFragment) {
+        this.products.forEach((prod, i) => {
+            this._checkRequiredProductFields(prod);
+            allProductFields.forEach(prodField => {
+                if (prod[prodField]) {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = `${prodField}[${i}]`;
+                    input.value = prod[prodField];
+                    documentFragment.appendChild(input);
+                }
+            });
+        });
+    }
+
+    _checkRequiredProductFields(product) {
+        requiredProductFields.forEach(reqField => {
+            if (!product[reqField]) {
+                throw new Error(`Required product field ${reqField} not found in product `, product);
+            }
         });
     }
 
@@ -130,16 +220,8 @@ export class PayTrail extends HTMLElement {
         const authCodeInput = document.createElement('input');
         authCodeInput.type = 'hidden';
         authCodeInput.name = 'AUTHCODE';
-        this._calculateAuthCode().then(authcode => {
-            authCodeInput.value = authcode;
-        });
+        authCodeInput.value = this.authcode;
         form.appendChild(authCodeInput);
-    }
-
-    _populateAuthCodeField() {
-        this._calculateAuthCode().then(authcode => {
-            this.shadowRoot.querySelector('input[name=AUTHCODE]').value = authcode;
-        });
     }
 
     static get observedAttributes() {
