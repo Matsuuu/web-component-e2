@@ -15,7 +15,8 @@
         "lint": "npm run lint:eslint && npm run lint:prettier",
         "format": "npm run format:eslint && npm run format:prettier",
         "test": "karma start --coverage",
-        "test:watch": "karma start --auto-watch=true --single-run=false"
+        "test:watch": "karma start --auto-watch=true --single-run=false",
+        "demo": "es-dev-server --app-index docs/demo/index.html --node-resolve --open --watch"
     },
     "dependencies": {},
     "devDependencies": {
