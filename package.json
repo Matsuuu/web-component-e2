@@ -16,7 +16,8 @@
         "format": "npm run format:eslint && npm run format:prettier",
         "test": "karma start --coverage",
         "test:watch": "karma start --auto-watch=true --single-run=false",
-        "demo": "es-dev-server --app-index docs/demo/index.html --node-resolve --open --watch"
+        "demo:regular": "es-dev-server --app-index docs/demo/regular-demo/index.html --node-resolve --open --watch",
+        "demo:image": "es-dev-server --app-index docs/demo/image-demo/index.html --node-resolve --open --watch"
     },
     "dependencies": {},
     "devDependencies": {

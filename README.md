@@ -8,6 +8,7 @@
     -   [Methods](#methods)
     -   [Product attributes](#product-attributes)
     -   [Examples](#examples)
+        -   [Setting products](#setting-products)
         -   [Minimal Setup](#minimal-setup)
         -   [Using the required fields](#using-the-required-fields)
         -   [Using all fields](#using-all-fields)
@@ -95,6 +96,21 @@ TBA JSDelivr or such link
 | `item_type[N]`             |  [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#item_typen)             | 1, 2, and 3. (1)                                               |           |
 
 ## Examples
+
+### Setting products
+
+Products are not set through HTML attributes, like everything else is within this component. Instead products are added using the API of `<pay-trail>`.
+
+-   `addProducts()` adds the given product(s) into the existing product array, and created the input fields for it.
+-   `getProducts()` returns an array with all of the products set in the component
+-   `removeProduct()` expect the exact same product, that was added as a parameter, and then removes it from the array
+-   `removeProductAtIndex()` removes a product with given index
+
+The API is simply called by selecting the component from the DOM and calling them:
+
+```js
+document.querySelector('pay-trail').addProducts(productList);
+```
 
 #### Minimal Setup
 

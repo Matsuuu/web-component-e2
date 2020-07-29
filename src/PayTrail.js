@@ -267,7 +267,7 @@ export class PayTrail extends HTMLElement {
             submitButton.value = this.submit_button_label;
         } else {
             submitButton.style.backgroundColor = 'transparent';
-            submitButton.style.backgroundImage = "url('https://simplr.company/assets/simplr_horisontal_black.svg')";
+            submitButton.style.backgroundImage = `url('${this.background_image}')`;
             submitButton.value = '';
         }
         documentFragment.appendChild(submitButton);
