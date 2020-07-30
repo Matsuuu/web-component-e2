@@ -9,17 +9,23 @@
     -   [Product attributes](#product-attributes)
     -   [Examples](#examples)
         -   [Setting products](#setting-products)
-        -   [Minimal Setup](#minimal-setup)
-        -   [Using the required fields](#using-the-required-fields)
-        -   [Using all fields](#using-all-fields)
-        -   [Directing to a certain payment provider](#directing-to-a-certain-payment-provider)
+        -   [Authcode generation](#authcode-generation)
+            -   [Generating the authcode in the front-end](#generating-the-authcode-in-the-front-end)
+            -   [Generating the authcode in the back-end](#generating-the-authcode-in-the-back-end)
+        -   [Form Submission](#form-submission)
+            -   [Minimal Setup](#minimal-setup)
+            -   [Using the required fields](#using-the-required-fields)
+            -   [Using all fields](#using-all-fields)
+            -   [Directing to a certain payment provider](#directing-to-a-certain-payment-provider)
     -   [Payment Methods](#payment-methods)
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
 Easy to use plug-and-play Web Component for Paytrail integrations.
 
 Makes use of the E2 Payments API and eases the process of creating a Paytrail Payment gateway.
 
-**_ Currently still work in progress, but a working implementation with a demo will be provided in August / September 2020 _**
+Extremely easy to set up. Uses the testing credentials, if none are probided, so you can easily get into demoing.
 
 ## Installation
 
@@ -78,10 +84,12 @@ TBA JSDelivr or such link
 | `addProducts`             | `(products: Product | Array<Product>): void` | Add product(s) to the transaction. Product fields must match the [fields in the documentation](https://docs.paytrail.com/payments/e2-interface/fields/#product-information)                                                                                                     |
 | `calculateAuthCodeString` | `(): void`                                   | Calculates the AUTHCODE string, encrypting it and appending it into the AUTHCODE input field. Assumes that a `merchant_authentication_hash` is provided.                                                                                                                        |
 | `getAuthCodeString`       | `(): string`                                 | Generates the AUTHCODE string needed for calculating the AUTHCODE hash. Doesn't append a `merchant_authentication_hash`, instead assumes that the given string is passed to another API and that said API appends the `merchant_authentication_hash` before encrypting the data |
+| `setAuthCode`             | `(authcode): string`                         | Sets the authcode into the corresponding input field. Use this if you calculate the authcode in the backend and want to append it as a reaction to e.g. a fetch request.                                                                                                        |
 | `getProducts`             | `(): Array<Product>`                         | Returns a Array of Products set into the form                                                                                                                                                                                                                                   |
 | `removeProduct`           | `(product: Product): void`                   | Remove a product from the form                                                                                                                                                                                                                                                  |
 | `removeProductAtIndex`    | `(index: any): void`                         | Remove a product from the form given a array index                                                                                                                                                                                                                              |
 | `setProducts`             | `(products: any): void`                      | Set the products in the form, overwriting the current products                                                                                                                                                                                                                  |
+| `submit`                  | `(): void`                                   | Submit the Paytrail form manually                                                                                                                                                                                                                                               |
 
 ## Product attributes
 
@@ -110,6 +118,61 @@ The API is simply called by selecting the component from the DOM and calling the
 
 ```js
 document.querySelector('pay-trail').addProducts(productList);
+```
+
+### Authcode generation
+
+The authcode can be generated in two ways:
+
+##### Generating the authcode in the front-end
+
+If you want to generate the authcode in the frontend, you can call `calculateAuthCodeString()`, which will use the `merchant_authentication_hash` provided to generate a authentication code.
+The function will return a promise, you can `await` for the generation to finish, and then submit the form manually.
+
+```js
+async handleSubmit() {
+    await this.paytrailField.calculateAuthCodeString();
+    this.paytrailField.submit();
+}
+```
+
+**_ Generating the authcode in the frontend is not advisable, since you will be exposing your merchant_authentication_hash to the public. _**
+
+##### Generating the authcode in the back-end
+
+Another way of generating the authcode is by getting the authcode string (a string of values, seperated by pipes (|), and passing it to the backend.
+
+```js
+this.querySelector("pay-trail").addEventListener("paytrail-submit", handleSubmit);
+
+async handleSubmit() {
+    const authCodeString = this.paytrailField.getAuthCodeString();
+    const response = await fetch("http://localhost:3000/authcode", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({authCodeString})
+    });
+    this.paytrailField.setAuthCode(response.authcode);
+    this.paytrailfield.submit();
+}
+```
+
+In the back end, the operation of generating the code would look something like this:
+
+```js
+const sha256 = require("js-sha256");
+
+calculateAuthCode(request) {
+    const authCodeString = 'MY_MERCHANT_HASH' + req.body.authCodeString;
+    return {authcode: sha256.hex(authCodeString).toUpperCase()};
+}
+```
+
+### Form Submission
+
+If a authcode has been set for the pay-trail component, the form submission will launch on the click of the submit button. If however not authcode has been set (for example in cases where you generate it in the backend), a `paytrail-submit` -event is triggered and the default of the form submit is prevented.
+
+```js
 ```
 
 #### Minimal Setup
