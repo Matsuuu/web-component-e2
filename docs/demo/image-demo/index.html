@@ -13,7 +13,7 @@
             }
 
             pay-trail {
-                padding: 0;
+                cursor: pointer;
             }
         </style>
     </head>
@@ -33,16 +33,17 @@
             PAYER_PERSON_ADDR_POSTAL_CODE="608009"
             PAYER_PERSON_ADDR_TOWN="Test Town"
             PAYER_PERSON_ADDR_COUNTRY="AA"
-            background_image="./sp.png"
             PAYMENT_METHODS="52"
-        ></pay-trail>
+        >
+            <img src="./sp.png" />
+        </pay-trail>
 
         <button id="add-product" onclick="addProduct()">Add product</button>
         <button id="remove-product" onclick="removeProduct()">Remove product</button>
 
         <div class="products"></div>
 
-        <script src="../../../PayTrail.js" type="module"></script>
+        <script src="../../../Paytrail.js" type="module"></script>
 
         <script>
             const product = {

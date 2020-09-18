@@ -7,6 +7,26 @@
                 background: #fafafa;
             }
 
+            pay-trail {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                padding: 5px 20px;
+                background: blue;
+                width: 200px;
+                height: 50px;
+                cursor: pointer;
+                margin-bottom: 1rem;
+            }
+
+            pay-trail label {
+                color: #fff;
+                background: blue;
+                font-size: 1.4rem;
+                font-weight: bold;
+            }
+
             .products {
                 display: flex;
                 flex-direction: column;
@@ -29,15 +49,16 @@
             PAYER_PERSON_ADDR_POSTAL_CODE="608009"
             PAYER_PERSON_ADDR_TOWN="Test Town"
             PAYER_PERSON_ADDR_COUNTRY="AA"
-            submit_button_label="Pay here"
-        ></pay-trail>
+        >
+            <label>Pay Here</label>
+        </pay-trail>
 
         <button id="add-product" onclick="addProduct()">Add product</button>
         <button id="remove-product" onclick="removeProduct()">Remove product</button>
 
         <div class="products"></div>
 
-        <script src="../../../PayTrail.js" type="module"></script>
+        <script src="../../../Paytrail.js" type="module"></script>
 
         <script>
             const product = {

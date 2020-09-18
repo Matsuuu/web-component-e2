@@ -6,6 +6,25 @@
             body {
                 background: #fafafa;
             }
+
+            pay-trail {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 200px;
+                height: 50px;
+
+                cursor: pointer;
+                background: #e60094;
+                color: #fff;
+                padding: 8px 22px;
+                margin: 0 0 1rem 0;
+
+                font-size: 1.4rem;
+                text-transform: uppercase;
+                text-align: center;
+                font-weight: 600;
+            }
         </style>
     </head>
     <body>
@@ -20,7 +39,6 @@
             URL_NOTIFY="http://www.example.com/notify"
             LOCALE="en_US"
             REFERENCE_NUMBER="RF111232"
-            PAYMENT_METHODS="1"
             PAYER_PERSON_PHONE="01234567890"
             PAYER_PERSON_EMAIL="john.doe@example.com"
             PAYER_PERSON_FIRSTNAME="John"
@@ -31,24 +49,34 @@
             PAYER_PERSON_ADDR_TOWN="Test Town"
             PAYER_PERSON_ADDR_COUNTRY="AA"
             submit_button_label="Pay here"
-        ></pay-trail>
+        >
+            <label>Pay here</label>
+        </pay-trail>
 
         <button id="add-product" onclick="addProduct()">Add product</button>
-        <button id="remove-product" onclick="removeProduct()">Remove product</button>
+        <button id="remove-product" onclick="removeProduct()">Remove all products</button>
+        <p id="product-counter"></p>
 
-        <script src="../PayTrail.js" type="module"></script>
+        <script src="../Paytrail.js" type="module"></script>
 
         <script>
             const product = { item_title: 'Product name', item_unit_price: '29.99', item_vat_percent: '24.00' };
             const paytrailField = document.querySelector('pay-trail');
+            const productCounter = document.querySelector('#product-counter');
 
             const addProduct = () => {
                 paytrailField.addProducts(product);
                 paytrailField.calculateAuthCodeString();
+                showProductCount();
             };
 
             const removeProduct = () => {
                 paytrailField.removeProduct(product);
+                showProductCount();
+            };
+
+            const showProductCount = () => {
+                productCounter.innerText = `There are ${paytrailField.getProducts().length} products in the order`;
             };
         </script>
     </body>

@@ -1,16 +1,16 @@
 {
     "name": "pay-trail-e2",
     "version": "0.0.6",
-    "description": "Pay-Trail is a Vanilla Web Component implementation of the PayTrail E2 API",
+    "description": "pay-trail is a Vanilla Web Component implementation of the Paytrail E2 API",
     "author": "pay-trail",
     "license": "MIT",
-    "main": "PayTrail.js",
-    "module": "PayTrail.js",
+    "main": "Paytrail.js",
+    "module": "Paytrail.js",
     "files": [
-        "PayTrail.js"
+        "Paytrail.js"
     ],
     "scripts": {
-        "start": "es-dev-server --app-index demo/index.html --node-resolve --open --watch",
+        "start": "es-dev-server --app-index docs/demo/image-demo/index.html --node-resolve --open --watch",
         "lint:eslint": "eslint --ext .js,.html . --ignore-path .gitignore",
         "format:eslint": "eslint --ext .js,.html . --fix --ignore-path .gitignore",
         "lint:prettier": "prettier \"**/*.js\" --check --ignore-path .gitignore",

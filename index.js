@@ -1,1 +1,1 @@
-export { PayTrail } from './src/PayTrail.js';
+export { Paytrail } from './Paytrail.js';

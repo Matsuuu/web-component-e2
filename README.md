@@ -29,7 +29,7 @@ Extremely easy to set up. Uses the testing credentials, if none are probided, so
 
 ## Installation
 
-Pay-Trail will be available as a NPM package and through a CDN.
+pay-trail will be available as a NPM package and through a CDN.
 
 Links TBA
 
@@ -45,37 +45,35 @@ TBA JSDelivr or such link
 
 ## Attributes
 
-| Attribute                         | Description                                                                                                                                             | Validation                                                                                                                                                                  | Required |
-| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| `merchant_authentication_hash`    | Merchant Secret. Used to generate the AUTHCODE if using `calculateAuthCodeString` and calculating the code in the frontend.                             |                                                                                                                                                                             |          |
-| `amount`                          | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#amount-)                                                               | Float between 0.65–499999.99 (10)                                                                                                                                           | X        |
-| `authcode`                        | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#authcode-)                                                             | 0-9, A-Z. (64)                                                                                                                                                              | X        |
-| `expiration_for_payment_creation` | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#expiration_for_payment_creation-)                                      | ISO-8601 notation datetime with time zone                                                                                                                                   |          |
-| `locale`                          | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#locale-)                                                               | fi\*FI, sv_SE, and en_US                                                                                                                                                    |          |
-| `merchant_id`                     | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#merchant_id-)                                                          | Numeric string. (11)                                                                                                                                                        | X        |
-| `msg_settlement_payer`            | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#msg_settlement_payer-)                                                 | Unicode alphabets and ()[]{}\*+-\_,.\"'                                                                                                                                     |          |
-| `msg_ui_merchant_panel`           | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#msg_ui_merchant_panel-)                                                | Unicode alphabets and ()[]{}\*+-\_,.\"'                                                                                                                                     |          |
-| `msg_ui_payment_method`           | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#msg_ui_payment_method-)                                                | Unicode alphabets and ()[]{}\*+-\_,.\"'                                                                                                                                     |          |
-| `order_number`                    | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#order_number-) If no order number is provided, one will be generated.  | 0-9, a-z, A-Z and ()[]{}\*+-\_,                                                                                                                                             | X        |
-| `params_in`                       | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#params_in-)                                                            | 0-9, A-Z, [],\_. (4096)                                                                                                                                                     | X        |
-| `params_out`                      | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#params_out-)                                                           | 0-9, A-Z, [],\_. (255)                                                                                                                                                      | X        |
-| `payer_company_name`              | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#payer_company_name-)                                                   | Unicode alphabets and ()[]{}_+-\_,:&!?@#\$£=_;~/\"'.                                                                                                                        |          |
-| `payer_person_addr_country`       | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#payer_person_addr_country-)                                            | a-z, A-Z. (2)                                                                                                                                                               |          |
-| `payer_person_addr_postal_code`   | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#payer_person_addr_postal_code-)                                        | 0-9, a-z, A-Z. (16)                                                                                                                                                         |          |
-| `payer_person_addr_street`        | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#payer_person_addr_street-)                                             | Unicode alphabets                                                                                                                                                           |          |
-| `payer_person_addr_town`          | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#payer_person_addr_town-)                                               | Unicode alphabets and ()[]{}_+-\_,:&!?@#\$£=_;~/\"'                                                                                                                         |          |
-| `payer_person_email`              | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#payer_person_email-)                                                   | example@domain.org, max length for example is 64. (255)                                                                                                                     |          |
-| `payer_person_firstname`          | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#payer_person_firstname-)                                               | Unicode alphabets and ()[]{}_+-\_,:&!?@#\$£=_;~/\"'                                                                                                                         |          |
-| `payer_person_lastname`           | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#payer_person_lastname-)                                                | Unicode alphabets and ()[]{}_+-\_,:&!?@#\$£=_;~/\"'                                                                                                                         |          |
-| `payer_person_phone`              | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#payer_person_phone-)                                                   | 0-9, +-. (64)                                                                                                                                                               |          |
-| `payment_methods`                 | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#payment_methods-)                                                      | 0-9 and , (64)                                                                                                                                                              |          |
-| `reference_number`                | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#reference_number-)                                                     | Alphanumeric, either numeric value complying Finnish reference number standard or numeric Finnish reference number in international RF format (e.g. 1232 or RF111232). (20) |          |
-| `url_cancel`                      | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#url_cancel-)                                                           | Valid URL including http(s). URLs that do not include any dots (e.g. http://localhost) are currently not supported. (2048)                                                  | X        |
-| `url_notify`                      | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#url_notify-)                                                           | Valid URL including http(s). URLs that do not include any dots (e.g. http://localhost) are currently not supported. (2048)                                                  |          |
-| `url_success`                     | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#url_success-)                                                          | Valid URL including http(s). URLs that do not include any dots (e.g. http://localhost) are currently not supported. (2048)                                                  | X        |
-| `vat_is_included`                 | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#vat_is_included-)                                                      | 0, 1. (1)                                                                                                                                                                   |          |
-| `submit_button_label`             | The label in the submit button                                                                                                                          | Alphanumeric value                                                                                                                                                          |          |
-| `background_image`                | The background image used in the submit button. Can be used instead of a button_label. Will remove the label. Can be used for example with a bank logo. | URL to the image                                                                                                                                                            |          |
+| Attribute                         | Description                                                                                                                                            | Validation                                                                                                                                                                  | Required |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| `merchant_authentication_hash`    | Merchant Secret. Used to generate the AUTHCODE if using `calculateAuthCodeString` and calculating the code in the frontend.                            |                                                                                                                                                                             |          |
+| `amount`                          | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#amount-)                                                              | Float between 0.65–499999.99 (10)                                                                                                                                           | X        |
+| `authcode`                        | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#authcode-)                                                            | 0-9, A-Z. (64)                                                                                                                                                              | X        |
+| `expiration_for_payment_creation` | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#expiration_for_payment_creation-)                                     | ISO-8601 notation datetime with time zone                                                                                                                                   |          |
+| `locale`                          | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#locale-)                                                              | fi\*FI, sv_SE, and en_US                                                                                                                                                    |          |
+| `merchant_id`                     | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#merchant_id-)                                                         | Numeric string. (11)                                                                                                                                                        | X        |
+| `msg_settlement_payer`            | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#msg_settlement_payer-)                                                | Unicode alphabets and ()[]{}\*+-\_,.\"'                                                                                                                                     |          |
+| `msg_ui_merchant_panel`           | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#msg_ui_merchant_panel-)                                               | Unicode alphabets and ()[]{}\*+-\_,.\"'                                                                                                                                     |          |
+| `msg_ui_payment_method`           | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#msg_ui_payment_method-)                                               | Unicode alphabets and ()[]{}\*+-\_,.\"'                                                                                                                                     |          |
+| `order_number`                    | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#order_number-) If no order number is provided, one will be generated. | 0-9, a-z, A-Z and ()[]{}\*+-\_,                                                                                                                                             | X        |
+| `params_in`                       | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#params_in-)                                                           | 0-9, A-Z, [],\_. (4096)                                                                                                                                                     | X        |
+| `params_out`                      | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#params_out-)                                                          | 0-9, A-Z, [],\_. (255)                                                                                                                                                      | X        |
+| `payer_company_name`              | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#payer_company_name-)                                                  | Unicode alphabets and ()[]{}_+-\_,:&!?@#\$£=_;~/\"'.                                                                                                                        |          |
+| `payer_person_addr_country`       | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#payer_person_addr_country-)                                           | a-z, A-Z. (2)                                                                                                                                                               |          |
+| `payer_person_addr_postal_code`   | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#payer_person_addr_postal_code-)                                       | 0-9, a-z, A-Z. (16)                                                                                                                                                         |          |
+| `payer_person_addr_street`        | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#payer_person_addr_street-)                                            | Unicode alphabets                                                                                                                                                           |          |
+| `payer_person_addr_town`          | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#payer_person_addr_town-)                                              | Unicode alphabets and ()[]{}_+-\_,:&!?@#\$£=_;~/\"'                                                                                                                         |          |
+| `payer_person_email`              | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#payer_person_email-)                                                  | example@domain.org, max length for example is 64. (255)                                                                                                                     |          |
+| `payer_person_firstname`          | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#payer_person_firstname-)                                              | Unicode alphabets and ()[]{}_+-\_,:&!?@#\$£=_;~/\"'                                                                                                                         |          |
+| `payer_person_lastname`           | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#payer_person_lastname-)                                               | Unicode alphabets and ()[]{}_+-\_,:&!?@#\$£=_;~/\"'                                                                                                                         |          |
+| `payer_person_phone`              | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#payer_person_phone-)                                                  | 0-9, +-. (64)                                                                                                                                                               |          |
+| `payment_methods`                 | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#payment_methods-)                                                     | 0-9 and , (64)                                                                                                                                                              |          |
+| `reference_number`                | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#reference_number-)                                                    | Alphanumeric, either numeric value complying Finnish reference number standard or numeric Finnish reference number in international RF format (e.g. 1232 or RF111232). (20) |          |
+| `url_cancel`                      | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#url_cancel-)                                                          | Valid URL including http(s). URLs that do not include any dots (e.g. http://localhost) are currently not supported. (2048)                                                  | X        |
+| `url_notify`                      | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#url_notify-)                                                          | Valid URL including http(s). URLs that do not include any dots (e.g. http://localhost) are currently not supported. (2048)                                                  |          |
+| `url_success`                     | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#url_success-)                                                         | Valid URL including http(s). URLs that do not include any dots (e.g. http://localhost) are currently not supported. (2048)                                                  | X        |
+| `vat_is_included`                 | [Paytrail Documentation](https://docs.paytrail.com/payments/e2-interface/fields/#vat_is_included-)                                                     | 0, 1. (1)                                                                                                                                                                   |          |
 
 ## Methods
 
@@ -178,7 +176,9 @@ If a authcode has been set for the pay-trail component, the form submission will
 #### Minimal Setup
 
 ```html
-<pay-trail></pay-trail>
+<pay-trail>
+    <label>Pay Here</label>
+</pay-trail>
 ```
 
 #### Using the required fields
@@ -193,8 +193,9 @@ If a authcode has been set for the pay-trail component, the form submission will
     PARAMS_OUT="PAYMENT_ID,TIMESTAMP,STATUS"
     AMOUNT="350.00"
     AUTHCODE="BBDF8997A56F97DC0A46C99C88C2EEF9D541AAD59CFF2695D0DD9AF474086D71"
-    submit_button_label="Pay here"
-></pay-trail>
+>
+    <label>Pay Here</label>
+</pay-trail>
 ```
 
 #### Using all fields
@@ -221,8 +222,9 @@ If a authcode has been set for the pay-trail component, the form submission will
     PAYER_PERSON_ADDR_POSTAL_CODE="608009"
     PAYER_PERSON_ADDR_TOWN="Test Town"
     PAYER_PERSON_ADDR_COUNTRY="AA"
-    submit_button_label="Pay here"
-></pay-trail>
+>
+    <label>Pay Here</label>
+</pay-trail>
 ```
 
 #### Directing to a certain payment provider
@@ -242,8 +244,9 @@ By providing a `background_image` -property, we can make the button the selected
     AMOUNT="350.00"
     AUTHCODE="BBDF8997A56F97DC0A46C99C88C2EEF9D541AAD59CFF2695D0DD9AF474086D71"
     PAYMENT_METHODS="52"
-    background_image="my_bank_icon_url"
-></pay-trail>
+>
+    <img src="my_bank_icon_url" />
+</pay-trail>
 ```
 
 ## Payment Methods
