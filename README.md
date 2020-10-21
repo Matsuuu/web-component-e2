@@ -4,6 +4,8 @@
 
 The <pay-trail> Web Component is not developed or maintained by Paytrail. This repository is updated and maintained by Open Source contributors on GitHub
 
+## Table of Contents
+
 -   [\<pay-trail>](#--pay-trail-)
     -   [Installation](#installation)
         -   [NPM](#npm)
