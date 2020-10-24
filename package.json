@@ -17,10 +17,17 @@
         "format:prettier": "prettier \"**/*.js\" --write --ignore-path .gitignore",
         "lint": "npm run lint:eslint && npm run lint:prettier",
         "format": "npm run format:eslint && npm run format:prettier",
+
         "test": "karma start --coverage",
         "test:watch": "karma start --auto-watch=true --single-run=false",
+        
         "demo:regular": "es-dev-server --app-index docs/demo/regular-demo/index.html --node-resolve --open --watch",
-        "demo:image": "es-dev-server --app-index docs/demo/image-demo/index.html --node-resolve --open --watch"
+        "demo:image": "es-dev-server --app-index docs/demo/image-demo/index.html --node-resolve --open --watch",
+
+        "example:html": "es-dev-server --app-index docs/examples/html-example/index.html --node-resolve --open --watch",
+        "example:litelement": "es-dev-server --app-index docs/examples/lit-element-example/index.html --node-resolve --open --watch",
+        "example:react": "es-dev-server --app-index docs/examples/react-example/index.html --node-resolve --open --watch",
+        "example:backend": "es-dev-server --app-index docs/examples/backend-authcode-generation-example/index.html --node-resolve --open --watch"
     },
     "dependencies": {},
     "devDependencies": {
