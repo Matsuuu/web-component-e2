@@ -1,8 +1,6 @@
-# \<pay-trail>
+<h1 align="center">pay-trail 💸</h1>
 
-## Disclaimer
-
-The <pay-trail> Web Component is not developed or maintained by Paytrail. This repository is updated and maintained by Open Source contributors on GitHub
+> :exclamation: 3rd party developed React library and component for creating payments with [Paytrail E2 Interface][e2].
 
 ## Table of Contents
 
@@ -42,7 +40,7 @@ Links TBA
 #### NPM
 
 ```
-TBA When the repository is decided upon
+TBA as the repository is decided upon
 ```
 
 #### CDN
