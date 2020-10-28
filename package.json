@@ -24,16 +24,15 @@
     },
     "dependencies": {},
     "devDependencies": {
-        "es-dev-server": "^1.23.0",
+        "@open-wc/eslint-config": "^2.1.0",
+        "@open-wc/testing": "^2.5.29",
+        "@open-wc/testing-karma": "^3.4.8",
+        "es-dev-server": "^1.57.8",
         "eslint": "^6.1.0",
-        "@open-wc/eslint-config": "^2.0.0",
-        "prettier": "^2.0.4",
-        "eslint-config-prettier": "^6.11.0",
+        "eslint-config-prettier": "^6.15.0",
         "husky": "^1.0.0",
         "lint-staged": "^8.0.0",
-        "@open-wc/testing-karma": "^3.0.0",
-        "deepmerge": "^3.2.0",
-        "@open-wc/testing": "^2.0.0"
+        "prettier": "^2.1.2"
     },
     "eslintConfig": {
         "extends": [
