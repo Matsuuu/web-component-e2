@@ -1,0 +1,52 @@
+{
+  "scripts": {
+    "lint:eslint": "eslint --ext .js,.html . --ignore-path .gitignore",
+    "format:eslint": "eslint --ext .js,.html . --fix --ignore-path .gitignore",
+    "lint:prettier": "prettier \"**/*.js\" --check --ignore-path .gitignore",
+    "format:prettier": "prettier \"**/*.js\" --write --ignore-path .gitignore",
+    "lint": "npm run lint:eslint && npm run lint:prettier",
+    "format": "npm run format:eslint && npm run format:prettier",
+    "start": "web-dev-server --app-index docs/examples/lit-element-example/index.html --root-dir ../../../ --node-resolve --open --watch"
+  },
+  "devDependencies": {
+    "eslint": "^6.1.0",
+    "@open-wc/eslint-config": "^4.0.0",
+    "prettier": "^2.0.4",
+    "eslint-config-prettier": "^6.11.0",
+    "husky": "^1.0.0",
+    "lint-staged": "^10.0.0",
+    "@web/dev-server": "^0.0.12"
+  },
+  "eslintConfig": {
+    "extends": [
+      "@open-wc/eslint-config",
+      "eslint-config-prettier"
+    ]
+  },
+  "prettier": {
+    "singleQuote": true,
+    "arrowParens": "avoid"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "name": "lit-element-example",
+  "version": "0.0.0",
+  "description": "Webcomponent lit-element-example following open-wc recommendations",
+  "author": "lit-element-example",
+  "license": "MIT",
+  "dependencies": {
+    "@paytrail/web-component-e2": "file:../../..",
+    "lit-element": "^2.0.1",
+    "lit-html": "^1.0.0"
+  }
+}

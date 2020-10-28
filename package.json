@@ -1,5 +1,5 @@
 {
-    "name": "@paytrail/web-component-paytrail-e2",
+    "name": "@paytrail/web-component-e2",
     "version": "0.0.6",
     "description": "pay-trail is a Vanilla Web Component implementation of the Paytrail E2 API",
     "author": "pay-trail",
@@ -20,7 +20,7 @@
         "test": "karma start --coverage",
         "test:watch": "karma start --auto-watch=true --single-run=false",
         "example:html": "wds --app-index docs/examples/html-example/index.html --node-resolve --open --watch",
-        "example:litelement": "wds --app-index docs/examples/lit-element-example/index.html --node-resolve --open --watch",
+        "example:litelement": "cd docs/examples/lit-element-example && npm start",
         "example:react": "wds --app-index docs/examples/react-example/index.html --node-resolve --open --watch",
         "example:backend": "wds --app-index docs/examples/backend-authcode-generation-example/index.html --node-resolve --open --watch"
     },
