@@ -10,33 +10,31 @@
         "Paytrail.js"
     ],
     "scripts": {
+        "start": "npm run example:html",
         "lint:eslint": "eslint --ext .js,.html . --ignore-path .gitignore",
         "format:eslint": "eslint --ext .js,.html . --fix --ignore-path .gitignore",
         "lint:prettier": "prettier \"**/*.js\" --check --ignore-path .gitignore",
         "format:prettier": "prettier \"**/*.js\" --write --ignore-path .gitignore",
         "lint": "npm run lint:eslint && npm run lint:prettier",
         "format": "npm run format:eslint && npm run format:prettier",
-
         "test": "karma start --coverage",
         "test:watch": "karma start --auto-watch=true --single-run=false",
-        
-        "example:html": "es-dev-server --app-index docs/examples/html-example/index.html --node-resolve --open --watch",
-        "example:litelement": "es-dev-server --app-index docs/examples/lit-element-example/index.html --node-resolve --open --watch",
-        "example:react": "es-dev-server --app-index docs/examples/react-example/index.html --node-resolve --open --watch",
-        "example:backend": "es-dev-server --app-index docs/examples/backend-authcode-generation-example/index.html --node-resolve --open --watch"
+        "example:html": "wds --app-index docs/examples/html-example/index.html --node-resolve --open --watch",
+        "example:litelement": "wds --app-index docs/examples/lit-element-example/index.html --node-resolve --open --watch",
+        "example:react": "wds --app-index docs/examples/react-example/index.html --node-resolve --open --watch",
+        "example:backend": "wds --app-index docs/examples/backend-authcode-generation-example/index.html --node-resolve --open --watch"
     },
     "dependencies": {},
     "devDependencies": {
-        "es-dev-server": "^1.23.0",
+        "@open-wc/eslint-config": "^2.1.0",
+        "@open-wc/testing": "^2.5.29",
+        "@open-wc/testing-karma": "^3.4.8",
+        "@web/dev-server": "0.0.15",
         "eslint": "^6.1.0",
-        "@open-wc/eslint-config": "^2.0.0",
-        "prettier": "^2.0.4",
-        "eslint-config-prettier": "^6.11.0",
+        "eslint-config-prettier": "^6.15.0",
         "husky": "^1.0.0",
         "lint-staged": "^8.0.0",
-        "@open-wc/testing-karma": "^3.0.0",
-        "deepmerge": "^3.2.0",
-        "@open-wc/testing": "^2.0.0"
+        "prettier": "^2.1.2"
     },
     "eslintConfig": {
         "extends": [
