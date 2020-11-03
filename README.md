@@ -1,6 +1,6 @@
 <h1 align="center">pay-trail 💸</h1>
 
-> :exclamation: 3rd party developed React library and component for creating payments with [Paytrail E2 Interface][e2].
+> :exclamation: 3rd party developed Web Component library for creating payments with [Paytrail E2 Interface](https://docs.paytrail.com/payments/e2-interface/).
 
 ## Table of Contents
 
