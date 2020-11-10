@@ -21,7 +21,7 @@
         "test:watch": "karma start --auto-watch=true --single-run=false",
         "example:html": "wds --app-index docs/examples/html-example/index.html --node-resolve --open --watch",
         "example:litelement": "cd docs/examples/lit-element-example && npm start",
-        "example:react": "wds --app-index docs/examples/react-example/index.html --node-resolve --open --watch",
+        "example:react": "parcel ./docs/examples/react-example/index.html",
         "example:run-backend-app": "wds --app-index docs/examples/backend-authcode-generation-example/app/index.html --node-resolve --open --watch",
         "example:run-backend-api": "php -S localhost:3000 -t docs/examples/backend-authcode-generation-example/api/",
         "example:backend": "concurrently \"npm run example:run-backend-app\" \"npm run example:run-backend-api\""
@@ -37,6 +37,7 @@
         "eslint-config-prettier": "^6.15.0",
         "husky": "^1.0.0",
         "lint-staged": "^8.0.0",
+        "parcel-bundler": "^1.12.4",
         "prettier": "^2.1.2"
     },
     "eslintConfig": {

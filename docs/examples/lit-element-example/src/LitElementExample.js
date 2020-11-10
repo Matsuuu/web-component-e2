@@ -16,6 +16,11 @@ export class LitElementExample extends LitElement {
     };
   }
 
+  constructor() {
+    super();
+    this.products = [];
+  }
+
   firstUpdated() {
     this.titleField = this.shadowRoot.querySelector("input[name='item_title']");
     this.priceField = this.shadowRoot.querySelector("input[name='item_price']");
@@ -41,32 +46,20 @@ export class LitElementExample extends LitElement {
       item_vat_percent: this.vatField.value,
     };
     this.products.push(product);
-    this.renderProducts();
     this.paytrailComponent.addProducts(product);
     this.calculateAuthcode();
+    this.requestUpdate();
   }
 
   removeProduct(index) {
     this.paytrailComponent.removeProductAtIndex(index);
     this.products.splice(index, 1);
-    this.renderProducts();
     this.calculateAuthcode();
+    this.requestUpdate();
   }
 
   calculateAuthcode() {
     this.paytrailComponent.calculateAuthCodeString();
-  }
-
-  renderProducts() {
-    const docFrag = document.createDocumentFragment();
-    this.products.forEach((prod, i) => {
-      const prodElem = document.createElement('p');
-      prodElem.innerText = `${prod.item_title}, ${prod.item_unit_price}€ (click to remove)`;
-      prodElem.addEventListener('click', () => this.removeProduct(i));
-      docFrag.appendChild(prodElem);
-    });
-    this.productsField.innerHTML = '';
-    this.productsField.appendChild(docFrag);
   }
 
   render() {
@@ -78,7 +71,20 @@ export class LitElementExample extends LitElement {
         <input type="text" placeholder="Item Vat Percent" name="item_vat" />
         <input type="submit" value="Add product" />
       </form>
-      <div class="products"></div>
+      <div class="products">
+        ${this.products.map((prod, i) => {
+          return html`<p
+            @click=${() => this.removeProduct(i)}
+            tabindex="0"
+            @keyup=${e => {
+              console.log(e.key);
+              if (e.key === ' ') this.removeProduct(i);
+            }}
+          >
+            ${prod.item_title}, ${prod.item_unit_price}€
+          </p>`;
+        })}
+      </div>
       <pay-trail
         MERCHANT_ID="13466"
         ORDER_NUMBER="222"
