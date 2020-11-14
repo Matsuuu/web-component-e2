@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Paytrail Web Component HTML Example</title>
+        <meta name="author" content="" />
+        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet" />
+        <link rel="icon" href="./favicon.png" type="image/x-icon" />
+
+        <style>
+            html,
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: 'Roboto', sans-serif;
+                --primary-color: #e60094;
+                --body-color: #eeeeee;
+                --text-color: #222222;
+                background-color: var(--primary-color);
+                color: var(--text-color);
+            }
+
+            h2 {
+            }
+
+            .wrapper {
+                width: 60%;
+                min-height: 60%;
+                display: flex;
+                flex-direction: column;
+                margin: 10% auto 0;
+                padding: 2.5%;
+                align-items: center;
+                justify-content: center;
+                background-color: var(--body-color);
+                border-radius: 4px;
+            }
+
+            form {
+                display: flex;
+                padding: 5%;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                width: 80%;
+            }
+
+            input {
+                font-size: 1.6rem;
+                margin-bottom: 1rem;
+                border: none;
+                border-radius: 4px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.07);
+                padding: 0.25rem;
+            }
+
+            input[type='submit'] {
+                background: var(--primary-color);
+                color: #fff;
+                padding: 0.5rem;
+                cursor: pointer;
+            }
+
+            .products p {
+                color: var(--primary-color);
+                font-size: 1.2rem;
+                cursor: pointer;
+            }
+
+            pay-trail {
+                background: var(--primary-color);
+                color: #fff;
+                padding: 0.5rem;
+                cursor: pointer;
+                font-size: 1.4rem;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="wrapper">
+            <h2>Welcome to the Paytrail HTML Example</h2>
+            <form onsubmit="addProduct(); return false">
+                <input type="text" placeholder="Item Title" name="item_title" />
+                <input type="text" placeholder="Item Unit Price" name="item_price" />
+                <input type="text" placeholder="Item Vat Percent" name="item_vat" />
+                <input type="submit" value="Add product" />
+            </form>
+            <div class="products"></div>
+            <pay-trail
+                MERCHANT_ID="13466"
+                ORDER_NUMBER="222"
+                URL_SUCCESS="http://www.example.com/success"
+                URL_CANCEL="http://www.example.com/cancel"
+                PARAMS_IN="MERCHANT_ID,URL_SUCCESS,URL_CANCEL,ORDER_NUMBER,PARAMS_IN,PARAMS_OUT,PAYER_PERSON_PHONE,PAYER_PERSON_EMAIL,PAYER_PERSON_FIRSTNAME,PAYER_PERSON_LASTNAME,PAYER_COMPANY_NAME,PAYER_PERSON_ADDR_STREET,PAYER_PERSON_ADDR_POSTAL_CODE,PAYER_PERSON_ADDR_TOWN,PAYER_PERSON_ADDR_COUNTRY,AMOUNT"
+                PARAMS_OUT="ORDER_NUMBER,PAYMENT_ID,AMOUNT,CURRENCY,PAYMENT_METHOD,TIMESTAMP,STATUS"
+            >
+                <label>Pay here</label>
+            </pay-trail>
+        </div>
+
+        <script src="../../../Paytrail.js" type="module"></script>
+        <script>
+            const titleField = document.querySelector("input[name='item_title']");
+            const priceField = document.querySelector("input[name='item_price']");
+            const vatField = document.querySelector("input[name='item_vat']");
+            const paytrailComponent = document.querySelector('pay-trail');
+            const productsField = document.querySelector('.products');
+
+            const products = [];
+
+            const setDefaultProduct = () => {
+                titleField.value = 'Chocolate bar';
+                priceField.value = '0.99';
+                vatField.value = '24';
+            };
+
+            const addProduct = () => {
+                const product = {
+                    item_title: titleField.value,
+                    item_unit_price: priceField.value,
+                    item_vat_percent: vatField.value,
+                };
+                products.push(product);
+                renderProducts();
+                paytrailComponent.addProducts(product);
+                calculateAuthcode();
+            };
+
+            const removeProduct = index => {
+                paytrailComponent.removeProductAtIndex(index);
+                products.splice(index, 1);
+                renderProducts();
+                calculateAuthcode();
+            };
+
+            const calculateAuthcode = () => {
+                paytrailComponent.calculateAuthCodeString();
+            };
+
+            const renderProducts = () => {
+                const docFrag = document.createDocumentFragment();
+                products.map((prod, i) => {
+                    const prodElem = document.createElement('p');
+                    prodElem.innerText = `${prod.item_title}, ${prod.item_unit_price}€ (click to remove)`;
+                    prodElem.addEventListener('click', removeProduct);
+                    docFrag.appendChild(prodElem);
+                });
+                productsField.innerHTML = '';
+                productsField.appendChild(docFrag);
+            };
+
+            setDefaultProduct();
+        </script>
+    </body>
+</html>

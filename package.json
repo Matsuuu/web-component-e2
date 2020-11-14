@@ -1,5 +1,5 @@
 {
-    "name": "pay-trail-e2",
+    "name": "@paytrail/web-component-e2",
     "version": "0.0.6",
     "description": "pay-trail is a Vanilla Web Component implementation of the Paytrail E2 API",
     "author": "pay-trail",
@@ -10,7 +10,7 @@
         "Paytrail.js"
     ],
     "scripts": {
-        "start": "wds --app-index docs/demo/regular-demo/index.html --node-resolve --open --watch",
+        "start": "npm run example:html",
         "lint:eslint": "eslint --ext .js,.html . --ignore-path .gitignore",
         "format:eslint": "eslint --ext .js,.html . --fix --ignore-path .gitignore",
         "lint:prettier": "prettier \"**/*.js\" --check --ignore-path .gitignore",
@@ -19,8 +19,12 @@
         "format": "npm run format:eslint && npm run format:prettier",
         "test": "karma start --coverage",
         "test:watch": "karma start --auto-watch=true --single-run=false",
-        "demo:regular": "wds --app-index docs/demo/regular-demo/index.html --node-resolve --open --watch",
-        "demo:image": "wds --app-index docs/demo/image-demo/index.html --node-resolve --open --watch"
+        "example:html": "wds --app-index docs/examples/html-example/index.html --node-resolve --open --watch",
+        "example:litelement": "cd docs/examples/lit-element-example && npm start",
+        "example:react": "parcel ./docs/examples/react-example/index.html",
+        "example:run-backend-app": "wds --app-index docs/examples/backend-authcode-generation-example/app/index.html --node-resolve --open --watch",
+        "example:run-backend-api": "php -S localhost:3000 -t docs/examples/backend-authcode-generation-example/api/",
+        "example:backend": "concurrently \"npm run example:run-backend-app\" \"npm run example:run-backend-api\""
     },
     "dependencies": {},
     "devDependencies": {
@@ -28,10 +32,12 @@
         "@open-wc/testing": "^2.5.29",
         "@open-wc/testing-karma": "^3.4.8",
         "@web/dev-server": "0.0.15",
+        "concurrently": "^5.3.0",
         "eslint": "^6.1.0",
         "eslint-config-prettier": "^6.15.0",
         "husky": "^1.0.0",
         "lint-staged": "^8.0.0",
+        "parcel-bundler": "^1.12.4",
         "prettier": "^2.1.2"
     },
     "eslintConfig": {
