@@ -100,7 +100,7 @@
             </pay-trail>
         </div>
 
-        <script src="../../../Paytrail.js" type="module"></script>
+        <script src="../../../../Paytrail.js" type="module"></script>
         <script>
             const titleField = document.querySelector("input[name='item_title']");
             const priceField = document.querySelector("input[name='item_price']");
@@ -137,7 +137,6 @@
 
             const calculateAuthcode = () => {
                 const authCodeString = paytrailComponent.getAuthCodeString();
-                console.log(authCodeString);
                 const formData = new FormData();
                 formData.append('authCodeString', authCodeString);
                 fetch('http://localhost:3000/authcode', {
