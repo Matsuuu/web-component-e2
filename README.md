@@ -1,10 +1,10 @@
-<h1 align="center">Web-Component-E2</h1>
+<h1 align="center">Paytrail Web Component E2</h1>
 
 > :exclamation: 3rd party developed Web Component library for creating payments with [Paytrail E2 Interface](https://docs.paytrail.com/payments/e2-interface/).
 
 ## Table of Contents
 
--   [\<web-component-e2>](#web-component-e2)
+-   [\<paytrail-web-component-e2>](#paytrail-web-component-e2)
     -   [Installation](#installation)
         -   [NPM](#npm)
         -   [CDN](#cdn)
@@ -33,7 +33,7 @@ Extremely easy to set up. Uses the testing credentials, if none are probided, so
 
 ## Installation
 
-web-component-e2 will be available as a NPM package and through a CDN.
+paytrail-web-component-e2 will be available as a NPM package and through a CDN.
 
 Links TBA
 
@@ -109,7 +109,7 @@ TBA JSDelivr or such link
 
 ### Setting products
 
-Products are not set through HTML attributes, like everything else is within this component. Instead products are added using the API of `<web-component-e2>`.
+Products are not set through HTML attributes, like everything else is within this component. Instead products are added using the API of `<paytrail-web-component-e2>`.
 
 -   `addProducts()` adds the given product(s) into the existing product array, and created the input fields for it.
 -   `getProducts()` returns an array with all of the products set in the component
@@ -119,7 +119,7 @@ Products are not set through HTML attributes, like everything else is within thi
 The API is simply called by selecting the component from the DOM and calling them:
 
 ```js
-document.querySelector('web-component-e2').addProducts(productList);
+document.querySelector('paytrail-web-component-e2').addProducts(productList);
 ```
 
 ### Authcode generation
@@ -145,7 +145,7 @@ async handleSubmit() {
 Another way of generating the authcode is by getting the authcode string (a string of values, seperated by pipes (|), and passing it to the backend.
 
 ```js
-this.querySelector("web-component-e2").addEventListener("paytrail-submit", handleSubmit);
+this.querySelector("paytrail-web-component-e2").addEventListener("paytrail-submit", handleSubmit);
 
 async handleSubmit() {
     const authCodeString = this.paytrailField.getAuthCodeString();
@@ -180,15 +180,15 @@ If a authcode has been set for the component, the form submission will launch on
 #### Minimal Setup
 
 ```html
-<web-component-e2>
+<paytrail-web-component-e2>
     <label>Pay Here</label>
-</web-component-e2>
+</paytrail-web-component-e2>
 ```
 
 #### Using the required fields
 
 ```html
-<web-component-e2
+<paytrail-web-component-e2
     MERCHANT_ID="13466"
     URL_SUCCESS="http://www.example.com/success"
     URL_CANCEL="http://www.example.com/cancel"
@@ -199,13 +199,13 @@ If a authcode has been set for the component, the form submission will launch on
     AUTHCODE="BBDF8997A56F97DC0A46C99C88C2EEF9D541AAD59CFF2695D0DD9AF474086D71"
 >
     <label>Pay Here</label>
-</web-component-e2>
+</paytrail-web-component-e2>
 ```
 
 #### Using all fields
 
 ```html
-<web-component-e2
+<paytrail-web-component-e2
     MERCHANT_ID="13466"
     URL_SUCCESS="http://www.example.com/success"
     URL_CANCEL="http://www.example.com/cancel"
@@ -228,7 +228,7 @@ If a authcode has been set for the component, the form submission will launch on
     PAYER_PERSON_ADDR_COUNTRY="AA"
 >
     <label>Pay Here</label>
-</web-component-e2>
+</paytrail-web-component-e2>
 ```
 
 #### Directing to a certain payment provider
@@ -238,7 +238,7 @@ Do direct to a payment provider, you just need to supply a single entry into the
 By providing a `background_image` -property, we can make the button the selected bank's logo.
 
 ```html
-<web-component-e2
+<paytrail-web-component-e2
     MERCHANT_ID="13466"
     URL_SUCCESS="http://www.example.com/success"
     URL_CANCEL="http://www.example.com/cancel"
@@ -250,7 +250,7 @@ By providing a `background_image` -property, we can make the button the selected
     PAYMENT_METHODS="52"
 >
     <img src="my_bank_icon_url" />
-</web-component-e2>
+</paytrail-web-component-e2>
 ```
 
 ## Payment Methods
