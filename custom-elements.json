@@ -2,7 +2,7 @@
   "version": 2,
   "tags": [
     {
-      "name": "pay-trail",
+      "name": "paytrail-web-component-e2",
       "description": "A Vanilla Web Component Implementation of the Paytrail E2 API",
       "properties": [
       ]

@@ -225,7 +225,7 @@ export class Paytrail extends HTMLElement {
 
     _clearFields(form) {
         form.querySelectorAll("input[type='hidden']").forEach(inp => inp.remove());
-        const submitButton = form.querySelector('#pay-trail-submit-button');
+        const submitButton = form.querySelector('#paytrail-submit-button');
         if (submitButton) {
             submitButton.remove();
         }
@@ -320,6 +320,6 @@ export class Paytrail extends HTMLElement {
     }
 }
 
-if (!customElements.get('pay-trail')) {
-    customElements.define('pay-trail', Paytrail);
+if (!customElements.get('paytrail-web-component-e2')) {
+    customElements.define('paytrail-web-component-e2', Paytrail);
 }
