@@ -8,7 +8,7 @@ export default function PaytrailExample() {
     const addProduct = e => {
         e.preventDefault();
         if (!paytrailComponent) {
-            paytrailComponent = document.querySelector('pay-trail');
+            paytrailComponent = document.querySelector('paytrail-web-component-e2');
         }
 
         const formData = new FormData(e.target);
@@ -24,7 +24,7 @@ export default function PaytrailExample() {
 
     const removeProductAtIndex = index => {
         if (!paytrailComponent) {
-            paytrailComponent = document.querySelector('pay-trail');
+            paytrailComponent = document.querySelector('paytrail-web-component-e2');
         }
         paytrailComponent.removeProductAtIndex(index);
         products.splice(index, 1);
@@ -55,7 +55,7 @@ export default function PaytrailExample() {
                 <input type="submit" value="Add product" />
             </form>
             <div className="products">{products.map((prod, i) => createProduct(prod, i))}</div>
-            <pay-trail
+            <paytrail-web-component-e2
                 MERCHANT_ID="13466"
                 ORDER_NUMBER="222"
                 URL_SUCCESS="http://www.example.com/success"
@@ -64,7 +64,7 @@ export default function PaytrailExample() {
                 PARAMS_OUT="ORDER_NUMBER,PAYMENT_ID,AMOUNT,CURRENCY,PAYMENT_METHOD,TIMESTAMP,STATUS"
             >
                 <label>Pay here</label>
-            </pay-trail>
+            </paytrail-web-component-e2>
         </div>
     );
 }

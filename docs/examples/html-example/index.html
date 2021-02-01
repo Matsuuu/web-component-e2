@@ -68,7 +68,7 @@
                 cursor: pointer;
             }
 
-            pay-trail {
+            paytrail-web-component-e2 {
                 background: var(--primary-color);
                 color: #fff;
                 padding: 0.5rem;
@@ -88,7 +88,7 @@
                 <input type="submit" value="Add product" />
             </form>
             <div class="products"></div>
-            <pay-trail
+            <paytrail-web-component-e2
                 MERCHANT_ID="13466"
                 ORDER_NUMBER="222"
                 URL_SUCCESS="http://www.example.com/success"
@@ -97,7 +97,7 @@
                 PARAMS_OUT="ORDER_NUMBER,PAYMENT_ID,AMOUNT,CURRENCY,PAYMENT_METHOD,TIMESTAMP,STATUS"
             >
                 <label>Pay here</label>
-            </pay-trail>
+            </paytrail-web-component-e2>
         </div>
 
         <script src="../../../Paytrail.js" type="module"></script>
@@ -105,7 +105,7 @@
             const titleField = document.querySelector("input[name='item_title']");
             const priceField = document.querySelector("input[name='item_price']");
             const vatField = document.querySelector("input[name='item_vat']");
-            const paytrailComponent = document.querySelector('pay-trail');
+            const paytrailComponent = document.querySelector('paytrail-web-component-e2');
             const productsField = document.querySelector('.products');
 
             const products = [];

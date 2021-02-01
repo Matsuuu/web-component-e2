@@ -25,7 +25,9 @@ export class LitElementExample extends LitElement {
     this.titleField = this.shadowRoot.querySelector("input[name='item_title']");
     this.priceField = this.shadowRoot.querySelector("input[name='item_price']");
     this.vatField = this.shadowRoot.querySelector("input[name='item_vat']");
-    this.paytrailComponent = this.shadowRoot.querySelector('pay-trail');
+    this.paytrailComponent = this.shadowRoot.querySelector(
+      'paytrail-web-component-e2'
+    );
     this.productsField = this.shadowRoot.querySelector('.products');
 
     this.products = [];
@@ -85,7 +87,7 @@ export class LitElementExample extends LitElement {
           </p>`;
         })}
       </div>
-      <pay-trail
+      <paytrail-web-component-e2
         MERCHANT_ID="13466"
         ORDER_NUMBER="222"
         URL_SUCCESS="http://www.example.com/success"
@@ -94,7 +96,7 @@ export class LitElementExample extends LitElement {
         PARAMS_OUT="ORDER_NUMBER,PAYMENT_ID,AMOUNT,CURRENCY,PAYMENT_METHOD,TIMESTAMP,STATUS"
       >
         <label>Pay here</label>
-      </pay-trail>
+      </paytrail-web-component-e2>
     `;
   }
 
@@ -143,7 +145,7 @@ export class LitElementExample extends LitElement {
         cursor: pointer;
       }
 
-      pay-trail {
+      paytrail-web-component-e2 {
         background: var(--primary-color);
         color: #fff;
         padding: 0.5rem;
