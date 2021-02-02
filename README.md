@@ -276,8 +276,6 @@ The payment methods and their codes are listed below
 | Handelsbanken           | 6     |
 |  Paypal                 | 9     |
 | S-Pankki                |  10   |
-| Klarna invoice          | 11    |
-| Klarna Installment      | 12    |
 |  Jousto                 | 18    |
 | Aktia                   |  50   |
 | POP Pankki              |  51   |
