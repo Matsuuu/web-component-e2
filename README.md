@@ -267,6 +267,8 @@ By specifying a `PAYMENT_METHODS` -field, you can create buttons that go straigh
 
 The payment methods and their codes are listed below
 
+For the most up to date list of all of the payment methods, see the [official documentation](https://docs.paytrail.com/payment-methods/values/)
+
 | Name                    |  Code |
 | ----------------------- | ----- |
 | Nordea                  | 1     |
