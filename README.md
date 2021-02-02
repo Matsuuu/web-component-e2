@@ -35,17 +35,17 @@ Extremely easy to set up. Uses the testing credentials, if none are probided, so
 
 paytrail-web-component-e2 will be available as a NPM package and through a CDN.
 
-Links TBA
-
 #### NPM
 
-```
-TBA as the repository is decided upon
+```bash
+npm install @paytrail/web-component-e2
 ```
 
 #### CDN
 
-TBA JSDelivr or such link
+```html
+<script src="https://unpkg.com/@paytrail/web-component-e2"></script>
+```
 
 ## Attributes
 
