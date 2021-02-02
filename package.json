@@ -9,7 +9,7 @@
     "files": [
         "Paytrail.js"
     ],
-    "homepage": "https://docs.paytrail.com",
+    "homepage": "https://www.paytrail.com",
     "repository": {
         "type": "git",
         "url": "https://github.com/paytrail/web-component-e2"

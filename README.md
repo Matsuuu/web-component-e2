@@ -47,6 +47,14 @@ npm install @paytrail/web-component-e2
 <script src="https://unpkg.com/@paytrail/web-component-e2"></script>
 ```
 
+## Usage
+
+Setup examples can be found in the [setup](#minimal-setup) region of the README.
+
+Example use cases for the generation of auth codes and handling products can be found in the [examples](#examples) region of the README.
+
+For the latest information and instructions, [see the Official Paytrail Documentation](https://docs.paytrail.com).
+
 ## Attributes
 
 | Attribute                         | Description                                                                                                                                            | Validation                                                                                                                                                                  | Required |
