@@ -188,7 +188,20 @@ export class Paytrail extends HTMLElement {
     }
 
     submit() {
-        this.shadowRoot.querySelector('form').requestSubmit();
+        const formElem = this.shadowRoot.querySelector('form');
+        if (typeof formElem.requestSubmit === 'function') {
+            formElem.requestSubmit();
+        } else {
+            // Safari polyfill
+            const submitButton = document.createElement('input');
+            submitButton.type = 'submit';
+            submitButton.hidden = true;
+            submitButton.addEventListener("click", e => e.stopPropagation());
+
+            formElem.appendChild(submitButton);
+            submitButton.click();
+            submitButton.remove();
+        }
     }
 
     update() {
